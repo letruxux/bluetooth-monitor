@@ -1,0 +1,1 @@
+uv run pyinstaller bluetooth-monitor.py --onefile --noconsole --add-data "scripts;scripts"

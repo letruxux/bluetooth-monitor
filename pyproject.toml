@@ -1,7 +1,14 @@
 [project]
 name = "bluetooth-charge-tray"
 version = "0.1.0"
-description = "Add your description here"
+description = "Shows bluetooth battery level in windows sys tray"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "pystray>=0.19.5",
+]
+
+[dependency-groups]
+dev = [
+    "pyinstaller>=6.17.0",
+]
