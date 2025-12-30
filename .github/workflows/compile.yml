@@ -1,0 +1,34 @@
+name: build windows exe
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pystray pyinstaller pillow
+
+      - name: build exe
+        run: |
+          pyinstaller bluetooth-monitor.py --onefile --noconsole --add-data "scripts;scripts"
+
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluetooth-monitor-exe
+          path: dist/*.exe
