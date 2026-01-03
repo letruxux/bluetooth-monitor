@@ -1,7 +1,7 @@
 import subprocess
 import os
 import sys
-from constants import SUBPROCESS_ARGS
+from constants import SUBPROCESS_ARGS, DeviceNotFoundError
 
 
 def script_path(rel):
@@ -30,7 +30,11 @@ def run_ps(file: str, input: str) -> str:
 
 
 def find_instance_id(friendly_name: str) -> str:
-    return run_ps("get.ps1", friendly_name)
+    iid = run_ps("get.ps1", friendly_name)
+    if not iid:
+        raise DeviceNotFoundError(f"device not found: {friendly_name}")
+
+    return iid
 
 
 def get_battery_level(

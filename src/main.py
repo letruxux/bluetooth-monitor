@@ -2,7 +2,7 @@ import pystray
 from PIL import Image, ImageDraw
 import time
 import threading
-from constants import APP_NAME
+from constants import APP_NAME, DeviceNotFoundError, colors
 from config import config
 from ps1 import get_battery_level
 from ctypes import windll
@@ -26,28 +26,28 @@ def on_exit_all():
         icon.stop()
 
 
-def create_battery_icon(percentage):
+def create_battery_icon(percentage, fill_color=colors.white):
     # thanks ai for whatever this is
     width, height = 64, 64
     image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
     dc = ImageDraw.Draw(image)
 
     if percentage is None:
-        color = (128, 128, 128)  # Gray
+        color = colors.gray  # Gray
         fill_level = 0
     else:
         if percentage > 50:
-            color = (0, 255, 0)  # Green
+            color = colors.green  # Green
         elif percentage > 20:
-            color = (255, 165, 0)  # Orange
+            color = colors.orange  # Orange
         else:
-            color = (255, 0, 0)  # Red
+            color = colors.red  # Red
         fill_level = int((percentage / 100) * (height - 15))
 
     # body
-    dc.rectangle((10, 10, 54, 60), outline=(255, 255, 255), width=3)
+    dc.rectangle((10, 10, 54, 60), outline=fill_color, width=3)
     # tip
-    dc.rectangle((22, 3, 42, 10), fill=(255, 255, 255))
+    dc.rectangle((22, 3, 42, 10), fill=fill_color)
 
     if percentage is not None:
         # fill from bottom up
@@ -70,9 +70,12 @@ def update_loop(icon, friendly_name):
             level = get_battery_level(friendly_name=friendly_name)
             icon.icon = create_battery_icon(level)
             icon.title = f"{friendly_name}: {level}%"
+        except DeviceNotFoundError:
+            icon.icon = create_battery_icon(None, (255, 0, 0))
+            icon.title = f"{friendly_name}: not found"
         except Exception:
             icon.icon = create_battery_icon(None)
-            icon.title = f"{friendly_name}: not connected"
+            icon.title = f"{friendly_name}: unknown error"
 
         time.sleep(config.load().check_interval)
 

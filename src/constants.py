@@ -11,3 +11,7 @@ SUBPROCESS_ARGS = {
     "encoding": "utf-8",
     "capture_output": True,
 }
+
+
+class DeviceNotFoundError(Exception):
+    pass
