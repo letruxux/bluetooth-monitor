@@ -70,8 +70,7 @@ def update_loop(icon, friendly_name):
             level = get_battery_level(friendly_name=friendly_name)
             icon.icon = create_battery_icon(level)
             icon.title = f"{friendly_name}: {level}%"
-        except Exception as e:
-            print(e)
+        except Exception:
             icon.icon = create_battery_icon(None)
             icon.title = f"{friendly_name}: not connected"
 
