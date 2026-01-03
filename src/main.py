@@ -6,6 +6,7 @@ from constants import APP_NAME, DeviceNotFoundError, colors
 from config import config
 from ps1 import get_battery_level
 from ctypes import windll
+import config_gui
 
 # yay its not in 240p anymore
 windll.shcore.SetProcessDpiAwareness(1)
@@ -15,6 +16,7 @@ threads: list[threading.Thread] = []
 
 menu = pystray.Menu(
     pystray.MenuItem("Exit", lambda icon, item: on_exit_all()),
+    pystray.MenuItem("Settings", lambda icon, item: config_gui.open_config()),
 )
 
 
@@ -88,9 +90,6 @@ def on_exit(icon, item):
 
 # --- MAIN ---
 
-menu = pystray.Menu(
-    pystray.MenuItem("Exit", on_exit),
-)
 
 icon = pystray.Icon(
     APP_NAME,
