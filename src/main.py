@@ -7,6 +7,7 @@ from config import config
 from ps1 import get_battery_level
 from ctypes import windll
 import config_gui
+from tkinter import messagebox
 
 # yay its not in 240p anymore
 windll.shcore.SetProcessDpiAwareness(1)
@@ -99,6 +100,14 @@ icon = pystray.Icon(
 )
 
 if __name__ == "__main__":
+    if len(config.load().devices) == 0:
+        config_gui.open_config()
+        messagebox.showerror(
+            "No devices found",
+            "Please add at least one device to the config file and restart the app.",
+        )
+        exit()
+
     for name in config.load().devices:
         icon = pystray.Icon(
             name,
