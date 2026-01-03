@@ -21,7 +21,7 @@ jobs:
       - name: install dependencies
         run: |
           pip install --upgrade pip
-          pip install pystray pyinstaller pillow
+          pip install pystray pyinstaller pillow zon
 
       - name: build exe
         run: |
