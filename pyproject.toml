@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "pystray>=0.19.5",
+    "zon>=3.0.1",
 ]
 
 [dependency-groups]

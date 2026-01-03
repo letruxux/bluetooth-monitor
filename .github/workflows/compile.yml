@@ -25,7 +25,7 @@ jobs:
 
       - name: build exe
         run: |
-          pyinstaller bluetooth-monitor.py --onefile --noconsole --add-data "scripts;scripts"
+          pyinstaller src/main.py --onefile --noconsole --add-data "scripts;scripts" --name bluetooth-monitor
 
       - name: upload artifact
         uses: actions/upload-artifact@v4

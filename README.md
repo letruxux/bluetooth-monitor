@@ -14,5 +14,5 @@ Requires python (3.12 reccomended), pystray (`pip install pystray`), and pyinsta
 
 ```bash
 # considering you're in the project directory
-pyinstaller bluetooth-monitor.py --onefile --noconsole --add-data "scripts;scripts"
+pyinstaller src/main.py --onefile --noconsole --add-data "scripts;scripts" --name bluetooth-monitor
 ```

@@ -1,0 +1,8 @@
+{
+  "files.exclude": {
+    "**/.ruff_cache": true,
+    "**/.venv": true,
+    "**/build": true,
+    "**/*.spec": true,
+  }
+}
