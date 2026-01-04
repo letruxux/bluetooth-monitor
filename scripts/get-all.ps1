@@ -1,6 +1,14 @@
-Get-CimInstance Win32_PnPEntity |
+Get-PnpDevice |
 Where-Object {
-  $_.HardwareID -match 'BTHENUM|HID|USB'
+    $_.InstanceId -like 'BTHENUM*'
 } |
-Select-Object -ExpandProperty Name |
-Sort-Object -Unique
+ForEach-Object {
+    $conn = Get-PnpDeviceProperty `
+        -InstanceId $_.InstanceId `
+        -KeyName 'DEVPKEY_Device_IsConnected' `
+        -ErrorAction SilentlyContinue
+
+    if ($conn.Data -eq $true) {
+        $_.FriendlyName
+    }
+}

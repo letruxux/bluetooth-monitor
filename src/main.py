@@ -2,9 +2,9 @@ import pystray
 from PIL import Image, ImageDraw
 import time
 import threading
-from constants import APP_NAME, DeviceNotFoundError, colors
+from constants import APP_NAME, DeviceNotFoundError, colors, DeviceNotConnectedError
 from config import config
-from ps1 import get_battery_level
+from ps1 import get_battery_level, get_all_connected
 from ctypes import windll
 import config_gui
 from tkinter import messagebox
@@ -70,12 +70,19 @@ def update_loop(icon, friendly_name):
     global running
     while running:
         try:
+            is_connected = friendly_name in get_all_connected()
+            if not is_connected:
+                raise DeviceNotConnectedError(f"device not connected: {friendly_name}")
+
             level = get_battery_level(friendly_name=friendly_name)
             icon.icon = create_battery_icon(level)
             icon.title = f"{friendly_name}: {level}%"
         except DeviceNotFoundError:
             icon.icon = create_battery_icon(None, (255, 0, 0))
             icon.title = f"{friendly_name}: not found"
+        except DeviceNotConnectedError:
+            icon.icon = create_battery_icon(None, (128, 128, 128))
+            icon.title = f"{friendly_name}: disconnected"
         except Exception:
             icon.icon = create_battery_icon(None)
             icon.title = f"{friendly_name}: unknown error"
@@ -111,7 +118,7 @@ if __name__ == "__main__":
     for name in config.load().devices:
         icon = pystray.Icon(
             name,
-            create_battery_icon(None),
+            create_battery_icon(None, (200, 200, 200)),
             title=f"{name}: searching...",
             menu=menu,
         )

@@ -29,3 +29,7 @@ SUBPROCESS_ARGS = {
 
 class DeviceNotFoundError(Exception):
     pass
+
+
+class DeviceNotConnectedError(Exception):
+    pass

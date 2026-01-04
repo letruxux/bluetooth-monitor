@@ -10,6 +10,10 @@ def script_path(rel):
 
 
 def run_ps(file: str, input: str) -> str:
+    exists = os.path.exists(script_path(os.path.join("scripts", file)))
+    if not exists:
+        raise RuntimeError(f"script not found: {file}")
+
     ps = subprocess.run(
         [
             "powershell",
@@ -50,3 +54,7 @@ def get_battery_level(
         instance_id = find_instance_id(friendly_name)
 
     return int(run_ps("battery.ps1", instance_id))
+
+
+def get_all_connected() -> list[str]:
+    return [d.strip() for d in run_ps("get-all.ps1", "").splitlines()]
