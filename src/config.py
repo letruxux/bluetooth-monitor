@@ -1,8 +1,8 @@
-import os
 from constants import APP_NAME
 import zon as zod
-import json
 import typing
+import json
+import os
 
 CONFIG_DIR = os.path.join(os.getenv("APPDATA"), APP_NAME)
 os.makedirs(CONFIG_DIR, exist_ok=True)

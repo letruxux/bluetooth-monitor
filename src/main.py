@@ -1,13 +1,13 @@
-import pystray
-from PIL import Image, ImageDraw
-import time
-import threading
-from constants import APP_NAME, DeviceNotFoundError, colors, DeviceNotConnectedError
-from config import config
+from constants import APP_NAME, colors, DeviceNotFoundError, DeviceNotConnectedError
 from ps1 import get_battery_level, get_all_connected
+from PIL import Image, ImageDraw
+from tkinter import messagebox
+from config import config
 from ctypes import windll
 import config_gui
-from tkinter import messagebox
+import threading
+import pystray
+import time
 
 # yay its not in 240p anymore
 windll.shcore.SetProcessDpiAwareness(1)
@@ -16,7 +16,6 @@ icons: list = []
 threads: list[threading.Thread] = []
 
 menu = pystray.Menu(
-    pystray.MenuItem("Exit", lambda icon, item: on_exit_all()),
     pystray.MenuItem("Settings", lambda icon, item: config_gui.open_config()),
 )
 
@@ -78,22 +77,16 @@ def update_loop(icon, friendly_name):
             icon.icon = create_battery_icon(level)
             icon.title = f"{friendly_name}: {level}%"
         except DeviceNotFoundError:
-            icon.icon = create_battery_icon(None, (255, 0, 0))
+            icon.icon = create_battery_icon(None, colors.red)
             icon.title = f"{friendly_name}: not found"
         except DeviceNotConnectedError:
-            icon.icon = create_battery_icon(None, (128, 128, 128))
+            icon.icon = create_battery_icon(None, colors.gray)
             icon.title = f"{friendly_name}: disconnected"
         except Exception:
             icon.icon = create_battery_icon(None)
             icon.title = f"{friendly_name}: unknown error"
 
         time.sleep(config.load().check_interval)
-
-
-def on_exit(icon, item):
-    global running
-    running = False
-    icon.stop()
 
 
 # --- MAIN ---
@@ -118,7 +111,7 @@ if __name__ == "__main__":
     for name in config.load().devices:
         icon = pystray.Icon(
             name,
-            create_battery_icon(None, (200, 200, 200)),
+            create_battery_icon(None, colors.light_gray),
             title=f"{name}: searching...",
             menu=menu,
         )

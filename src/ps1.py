@@ -1,7 +1,7 @@
-import subprocess
-import os
-import sys
 from constants import SUBPROCESS_ARGS, DeviceNotFoundError
+import subprocess
+import sys
+import os
 
 
 def script_path(rel):

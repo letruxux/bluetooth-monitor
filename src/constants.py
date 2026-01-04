@@ -13,6 +13,7 @@ class _Colors:
     white = (255, 255, 255)
     black = (0, 0, 0)
     gray = (128, 128, 128)
+    light_gray = (200, 200, 200)
 
 
 colors = _Colors()

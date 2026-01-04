@@ -1,6 +1,6 @@
-# TODO
-import os
 from config import config
+import os
+# TODO
 
 
 def open_config():
