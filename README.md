@@ -4,6 +4,10 @@
 
 Simple python script (can be built to .exe with pyinstaller) that shows the battery level of your bluetooth devices in the windows system tray.
 
+## Download
+
+[Download here](https://nightly.link/letruxux/bluetooth-monitor/workflows/compile/master/bluetooth-monitor-exe.zip) or [build it](#build)
+
 ## Config
 
 Open the app once and open the configuration file at `%APPDATA%\BluetoothMonitor\devices.txt`. Add your devices, one per line, and save the file.
