@@ -17,6 +17,7 @@ threads: list[threading.Thread] = []
 
 menu = pystray.Menu(
     pystray.MenuItem("Settings", lambda icon, item: config_gui.open_config()),
+    pystray.MenuItem("Exit", lambda icon, item: on_exit_all()),
 )
 
 
